@@ -1,0 +1,7 @@
+caracteres --- [parser] --> AST
+				  |
+				  + - - - > error
+
+caracteres --- [lexer] --- tokens --- [parser] ---> AST
+				  |                       |
+				  + - - - - - - - - - - - + - - - > error

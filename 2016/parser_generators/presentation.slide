@@ -1,0 +1,137 @@
+Parser Generators en Go
+Qué, Para Qué y Cómo
+
+Arturo Vergara
+Developer, Mazing Studio
+hello@arturovm.me
+https://arturovm.me
+@arturovm
+
+* Breve Introducción: Parsers
+
+* ¿Qué es un parser?
+
+- Es un programa
+- Analiza un stream (de caracteres, de bytes, etc)
+- Los transforma en una estrcutura de datos (generalmente un _Abstract_Syntax_Tree_)
+- Analiza la sintaxis a partir de una gramática (y da errores)
+- El output se puede usar para otras cosas (e.g. compiladores)
+
+.code charts.txt 1,3
+
+* Lexer y Parser
+
+Un parser es en realidad dos componentes:
+
+.code charts.txt 5,7
+
+* El Lexer
+
+- Es un programa
+- Analiza un stream (de caracteres, de bytes, etc)
+- Los agrupa en _lexemes_
+- Convierte los _lexemes_ en _tokens_
+- El output se utiliza por el parser
+
+_Token_: Representación abstracta simbólica de un componente sintáctico del lenguaje
+
+	"+"     -> PLUS
+	"-"     -> MINUS
+	"while" -> WHILE
+
+* Breve Interludio: Context-Free Grammars
+
+* Context-Free Grammars
+
+Un CFG es un conjunto de reglas gramaticales que definen a una sintaxis.
+
+- Productions
+
+- Non-terminals
+
+- Terminals
+
+* Ejemplo
+
+Tomando la siguiente expresión:
+
+	1 + (2 - 3) + 123
+
+- Productions
+
+.code grammars.txt 1,4
+
+- Non-terminals
+
+	expr, val, op, num
+
+- Terminals
+
+	+, -, 1, 2, 3
+
+* The Real Meat: Parser Generators
+
+* ¿Qué son?
+
+- Son programas
+- Toman CFGs
+- Producen un parser
+
+* Yacc
+
+- Creado para UNIX por AT&T.
+- Toma input generado por Lex (un generador de lexers)
+- Sintaxis mezclada C + yacc
+- GNU Bison es una alternativa libre
+- `go`tool`yacc` es un port de la versión creada para Plan9
+
+
+* Case Study: arpfox
+
+[[https://github.com/malfunkt/arpfox]]
+
+* El problema
+
+Quería aceptar especificaciones de targets en el formato `nmap`
+
+- `10.0.0.1`
+- `10.0.0.0/24`
+- `10.0.0.*`
+- `10.0.0.1-10`
+- `10.0.0.1,`10.0.0.5-10,`192.168.1.*,`192.168.10.0/24`
+
+* CFG
+
+.code grammars.txt 6,12
+
+* Demo
+
+.play -edit main.go
+
+* Conclusiones
+
+- Los parsers son herramientas poderosas
+- El costo de entrada es alto
+- Los parser generators los hacen más accesibles
+
+* Recursos
+
+- *Build*Your*Own*LISP*
+
+_Daniel_Holden_
+
+[[http://buildyourownlisp.com]]
+
+- *Compilers:*Principles,*Techniques,*and*Tools*(2nd*Edition)*
+
+_Alfred_V._Aho,_Jeffrey_D._Ullman,_Ravi_Sethi_
+
+[[https://amzn.com/0321486811]]
+
+- *Bison*3.0.4*Manual*
+
+[[http://bit.ly/bisonmanual]]
+
+- `go`tool`yacc`
+
+[[https://golang.org/cmd/yacc/]]
